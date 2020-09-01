@@ -36,7 +36,7 @@ class make_labels:
         if schema_write_name is not None:
             self.query_schema = 'SET search_path to ' + schema_write_name + ','+schema_read_name+';'
         else:
-            self.query_schema = 'SET search_path to ' + schema_write_name + ';'
+            self.query_schema = 'SET search_path to ' + schema_read_name + ';'
         self.path = path
 
 
@@ -257,7 +257,7 @@ class make_labels:
                                 password=self.sqlpass,
                                host=self.host)
         cur = conn.cursor()
-        file = self.cwd + sqlfile
+        file = cwd + sqlfile
         with open(file, 'r') as openfile:
             query = openfile.read()
         openfile.close()

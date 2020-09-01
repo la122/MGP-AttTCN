@@ -1,18 +1,19 @@
 import os
 import sys
 import pandas as pd
+import argparse
 
 cwd = os.path.dirname(os.path.abspath(__file__))
 head = os.path.abspath(os.path.join(cwd, os.pardir, os.pardir))
 sys.path.append(head)
 
 from src.data_preprocessing.extract_MIMIC_data.extract_labels.make_labels import make_labels
-from scr.data_preprocessing.extract_MIMIC_data.extract_features.make_data import MakeData
-from scr.data_preprocessing.extract_MIMIC_data.extract_features.match_controls import match_controls
-from scr.data_preprocessing.features_preprocessing.stepI_data_prep import DataPreprocessing
-from scr.data_preprocessing.features_preprocessing.stepII_split_sets_n_normalise import MakeSetsAndNormalise
-from scr.data_preprocessing.features_preprocessing.stepIII_GP_prep import CompactTransform
-from scr.data_preprocessing.features_preprocessing.stepIV_GP_prep_part_II import GPPreprocessingSecondRound
+from src.data_preprocessing.extract_MIMIC_data.extract_features.make_data import MakeData
+from src.data_preprocessing.extract_MIMIC_data.extract_features.match_controls import match_controls
+from src.data_preprocessing.features_preprocessing.stepI_data_prep import DataPreprocessing
+from src.data_preprocessing.features_preprocessing.stepII_split_sets_n_normalise import MakeSetsAndNormalise
+from src.data_preprocessing.features_preprocessing.stepIII_GP_prep import CompactTransform
+from src.data_preprocessing.features_preprocessing.stepIV_GP_prep_part_II import GPPreprocessingSecondRound
 
 def make_dirs():
     data_path = os.path.join(head, 'data')
@@ -31,7 +32,13 @@ def main(args):
     make_dirs()
 
     # generate sepsis labels
-    labels = make_labels()
+    labels = make_labels(sqluser=args.sqluser,
+                         sqlpass=args.sqlpass,
+                         host=args.host,
+                         dbname=args.dbname,
+                         schema_write_name=args.schema_write_name,
+                         schema_read_name=args.schema_read_name,
+                         path=args.output_path)
     labels.generate_SI_data()
     labels.generate_SOFA_data()
     labels.generate_all_sepsis_onset()
@@ -119,7 +126,7 @@ def parse_arg():
                         help="SQL user")
     parser.add_argument("-pw", "--sqlpass",
                         help="SQL user password. If none insert ''")
-    parser.add_argument("-h", "--host",
+    parser.add_argument("-ht", "--host",
                         help="SQL host")
     parser.add_argument("-db", "--dbname",
                         help="SQL database name")
@@ -127,6 +134,9 @@ def parse_arg():
                         help="SQL read/main schema name")
     parser.add_argument("-w", "--schema_write_name",
                         help="SQL write schema name (optional)", 
+                        default=None)
+    parser.add_argument("-o", "--output_path",
+                        help="where to save tables", 
                         default=None)
     return parser.parse_args()
 
