@@ -31,6 +31,18 @@ def main(args):
     # create directories
     make_dirs()
 
+    # generate data to feed in model 
+    data = MakeData(sqluser=args.sqluser,
+                    sqlpass=args.sqlpass,
+                    host=args.host,
+                    dbname = args.dbname,
+                    schema_read_name=args.schema_read_name)
+    data.step1_cohort()
+    match_controls()
+    data.step3_match_controls_to_sql()
+    data.step4_extract_data()
+    data.step4_extract_MR_data()
+
     # generate sepsis labels
     labels = make_labels(sqluser=args.sqluser,
                          sqlpass=args.sqlpass,
@@ -45,14 +57,6 @@ def main(args):
     labels.filter_first_sepsis_onset()
     labels.save_to_postgres()
     labels.generate_sofa_delta_table()
-
-    # generate data to feed in model 
-    data = MakeData()
-    data.step1_cohort()
-    match_controls()
-    data.step3_match_controls_to_sql()
-    data.step4_extract_data()
-    data.step4_extract_MR_data()
 
     # merge extracted data, normalise TS length, run basic tests
     interim_path = os.path.join(head, 'data', 'interim')

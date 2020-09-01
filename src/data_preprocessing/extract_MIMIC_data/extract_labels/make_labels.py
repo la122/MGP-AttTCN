@@ -112,9 +112,8 @@ class make_labels:
         self.sofa_within_si.to_csv(path + "19-06-12-sepsis_onsets.csv")
 
     def save_to_postgres(self):
-        engine = create_engine('postgresql+psycopg2://{0}:{1}@{2}:5432/mimic3'.format(self.sqluser,
-                                                                                      self.sqlpass,
-                                                                                      self.host))
+        engine = create_engine('postgresql+psycopg2://{0}:{1}@{2}:5432/@{3}'
+        .format(self.sqluser, self.sqlpass, self.host, self.dbname))
         self.sofa_within_si.rename(columns={"sofa_delta": "delta_score"}, inplace=True)
         # somehow we cannot overwrite tables directly with "to_sql" so let's do that before
         conn = psycopg2.connect(dbname=self.dbname,

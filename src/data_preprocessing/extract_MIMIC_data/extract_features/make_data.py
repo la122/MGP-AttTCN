@@ -14,9 +14,13 @@ from src.utils.debug import *
 
 class MakeData:
 
-    def __init__(self, sqluser='mrosnati',
-                 schema_write_name='mimic3_mrosnati',
-                 schema_read_name='mimic3'):
+    def __init__(self,
+                 sqluser,
+                 sqlpass,
+                 host,
+                 dbname,
+                 schema_read_name,
+                 schema_write_name='mimic3_mrosnati'):
         """
         Initialise function
         :param sqluser:             user name
@@ -25,14 +29,13 @@ class MakeData:
         """
         # specify user/password/where the database is
         self.sqluser = sqluser
-        self.sqlpass = ''
-        self.dbname = 'mimic3'
-        self.host = 'lm-db-01.leomed.ethz.ch'
+        self.sqlpass = sqlpass
+        self.dbname = dbname
+        self.host = host
         self.query_schema = 'SET search_path to ' + schema_write_name + ',' + schema_read_name + ';'
         self.cwd = os.path.dirname(os.path.abspath(__file__))
-        self.engine = create_engine('postgresql+psycopg2://{0}:{1}@{2}:5432/mimic3'.format(self.sqluser,
-                                                                                           self.sqlpass,
-                                                                                           self.host))
+        self.engine = create_engine('postgresql+psycopg2://{0}:{1}@{2}:5432/@{3}'
+        .format(self.sqluser, self.sqlpass, self.host, self.dbname))
 
     def create_table(self, sqlfile):
         ##
@@ -81,7 +84,7 @@ class MakeData:
         path = os.path.join(head, 'data', 'interim')
         file = "q13_matched_controls.csv"
         t_print("reading csv..")
-        mc = pd.read_csv(path + file)
+        mc = pd.read_csv(path + '/' +file)
         t_print("read")
         print_time()
         types = {"icustay_id": Integer(),
