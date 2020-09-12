@@ -6,7 +6,7 @@ import sys
 import pandas as pd
 
 cwd = os.path.dirname(os.path.abspath(__file__))
-head = os.path.abspath(os.path.join(cwd, os.pardir, os.pardir,  os.pardir, os.pardir))
+head = os.path.abspath(os.path.join(cwd, os.pardir, os.pardir,  os.pardir))
 sys.path.append(head)
 
 """

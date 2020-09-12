@@ -117,7 +117,7 @@ class DataPreprocessing:
             new_cols = {x: y for x, y in zip(dataset.columns, self.onset_hours.columns)}
             dataset = dataset.rename(columns=new_cols)
             self.onset_hours = self.onset_hours.append(dataset, sort=False)
-        path = os.path.abspath(os.path.join(self.cwd, os.pardir, os.pardir)) + "/data/processed/"
+        path = os.path.abspath(os.path.join(self.cwd, os.pardir, os.pardir, os.pardir)) + "/data/processed/"
         file = "onset_hours.csv"
         self.onset_hours.to_csv(path + file, index=False)
 
@@ -160,7 +160,7 @@ class DataPreprocessing:
         self.full_labvitals = self.full_labvitals.reset_index(drop=True)
 
         # save
-        path = os.path.abspath(os.path.join(self.cwd, os.pardir, os.pardir)) + "/data/interim/"
+        path = os.path.abspath(os.path.join(self.cwd, os.pardir, os.pardir, os.pardir)) + "/data/interim/"
         if file_name is None:
             file = "full_labvitals_horizon_{}.csv".format(self.horizon)
         else:
@@ -183,7 +183,7 @@ class DataPreprocessing:
         if self.max_length:
             to_drop = self.full_labvitals.loc[self.full_labvitals.chart_time > self.max_length, "icustay_id"].tolist()
             self.full_labvitals = self.full_labvitals[~self.full_labvitals.icustay_id.isin(to_drop)]
-        path = os.path.abspath(os.path.join(self.cwd, os.pardir, os.pardir)) + "/data/processed/"
+        path = os.path.abspath(os.path.join(self.cwd, os.pardir, os.pardir, os.pardir)) + "/data/processed/"
         if file_name is None:
             file = "full_labvitals_horizon_{}_last.csv".format(self.horizon)
         else:
@@ -217,7 +217,7 @@ class DataPreprocessing:
         # create one-hot vector
         self.full_static = pd.get_dummies(all_stats[static_vars[1:]])
         self.full_static.insert(loc=0, column='icustay_id', value=all_stats.icustay_id.tolist())
-        path = os.path.abspath(os.path.join(self.cwd, os.pardir, os.pardir)) + "/data/processed/"
+        path = os.path.abspath(os.path.join(self.cwd, os.pardir, os.pardir, os.pardir)) + "/data/processed/"
         file = "full_static.csv"
         self.full_static.to_csv(path + file, index=False)
 
@@ -229,7 +229,7 @@ class DataPreprocessing:
         self.full_static.insert(loc=0, column='admission_age', value=all_stats.admission_age.tolist())
         self.full_static.insert(loc=0, column='icustay_id', value=all_stats.icustay_id.tolist())
 
-        path = os.path.abspath(os.path.join(self.cwd, os.pardir, os.pardir)) + "/data/processed/"
+        path = os.path.abspath(os.path.join(self.cwd, os.pardir, os.pardir, os.pardir)) + "/data/processed/"
         file = "full_static_mr_features.csv"
         self.full_static.to_csv(path + file, index=False)
 
