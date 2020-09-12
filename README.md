@@ -12,7 +12,7 @@ STEP I: install dependencies
 `pip install -r requirements.txt`
 
 STEP II: data extraction & preprocessing 
-`python scr/data_processing/main.py [-h] -u SQLUSER -pw SQLPASS -ht HOST -db DBNAME -r SCHEMA_READ_NAME [-w SCHEMA_WRITE_NAME]`
+`python src/data_preprocessing/main.py [-h] -u SQLUSER -pw SQLPASS -ht HOST -db DBNAME -r SCHEMA_READ_NAME [-w SCHEMA_WRITE_NAME]`
 
 STEP III: run the model
 

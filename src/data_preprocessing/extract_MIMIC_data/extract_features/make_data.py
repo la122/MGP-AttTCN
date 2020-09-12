@@ -40,7 +40,6 @@ class MakeData:
                                                                                         self.dbname))
 
     def create_table(self, sqlfile):
-        print(self.dbname, self.sqluser, self.sqlpass, self.host)
         conn = psycopg2.connect(dbname=self.dbname,
                                 user=self.sqluser,
                                 password=self.sqlpass,
