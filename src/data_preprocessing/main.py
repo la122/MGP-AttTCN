@@ -14,6 +14,7 @@ from src.data_preprocessing.features_preprocessing.stepI_data_prep import DataPr
 from src.data_preprocessing.features_preprocessing.stepII_split_sets_n_normalise import MakeSetsAndNormalise
 from src.data_preprocessing.features_preprocessing.stepIII_GP_prep import CompactTransform
 from src.data_preprocessing.features_preprocessing.stepIV_GP_prep_part_II import GPPreprocessingSecondRound
+from src.utils.debug import t_print
 
 def make_dirs():
     data_path = os.path.join(head, 'data')
@@ -68,12 +69,12 @@ def main(args):
              "control_55h_hourly_vitals_ex1c.csv",
              "case_55h_hourly_labs_ex1c.csv",
              "control_55h_hourly_labs_ex1c.csv"]
-    cas_f = os.path.join(path, files[1])
-    cos_f = os.path.join(path, files[2])
-    cav_f = os.path.join(path, files[3])
-    cov_f = os.path.join(path, files[4])
-    cal_f = os.path.join(path, files[5])
-    col_f = os.path.join(path, files[6])
+    cas_f = os.path.join(interim_path, files[1])
+    cos_f = os.path.join(interim_path, files[2])
+    cav_f = os.path.join(interim_path, files[3])
+    cov_f = os.path.join(interim_path, files[4])
+    cal_f = os.path.join(interim_path, files[5])
+    col_f = os.path.join(interim_path, files[6])
     t_print("Initialising")
     first_processing = DataPreprocessing(cas_f, cos_f, cav_f, cov_f, cal_f, col_f,)
     t_print("load_static")

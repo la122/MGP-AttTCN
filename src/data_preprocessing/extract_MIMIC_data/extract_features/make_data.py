@@ -86,7 +86,7 @@ class MakeData:
         path = os.path.join(head, 'data', 'interim')
         file = "q13_matched_controls.csv"
         t_print("reading csv..")
-        mc = pd.read_csv(path + file)
+        mc = pd.read_csv(path + '/' + file)
         t_print("read")
         print_time()
         types = {"icustay_id": Integer(),
