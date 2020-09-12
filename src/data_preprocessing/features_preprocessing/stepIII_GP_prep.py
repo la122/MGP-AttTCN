@@ -111,7 +111,7 @@ class CompactTransform:
 
     def save(self, features=None):
         if features is None:
-            path = os.path.abspath(os.path.join(self.cwd, os.pardir, os.pardir)) + "/data/" + \
+            path = os.path.abspath(os.path.join(self.cwd, os.pardir, os.pardir, os.pardir)) + "/data/" + \
                    self.outpath + "/GP_prep.pkl"
         else:
             path = head + "/data/" + self.outpath + "/GP_prep_{}.pkl".format(features)
