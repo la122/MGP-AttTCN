@@ -27,7 +27,7 @@ class MakeData:
         self.sqluser = sqluser
         self.sqlpass = ''
         self.dbname = 'mimic3'
-        self.host = 'lm-db-01.leomed.ethz.ch'
+        self.host = 'locahost'
         self.query_schema = 'SET search_path to ' + schema_write_name + ',' + schema_read_name + ';'
         self.cwd = os.path.dirname(os.path.abspath(__file__))
         self.engine = create_engine('postgresql+psycopg2://{0}:{1}@{2}:5432/mimic3'.format(self.sqluser,
@@ -35,7 +35,7 @@ class MakeData:
                                                                                            self.host))
 
     def create_table(self, sqlfile):
-        ##
+        print(self.dbname, self.sqluser, self.sqlpass, self.host)
         conn = psycopg2.connect(dbname=self.dbname,
                                 user=self.sqluser,
                                 password=self.sqlpass,

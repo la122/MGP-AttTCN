@@ -33,11 +33,16 @@ class make_labels:
         self.sqlpass = sqlpass
         self.dbname = dbname
         self.host = host
-        if schema_write_name is not None:
-            self.query_schema = 'SET search_path to ' + schema_write_name + ','+schema_read_name+';'
+        
+        if schema_write_name is None:
+            schema_write_name = 'mimic3_mrosnati'
+
+        self.query_schema = 'SET search_path to ' + schema_write_name + ','+schema_read_name+';'
+        
+        if path is None:
+            self.path = '.'
         else:
-            self.query_schema = 'SET search_path to ' + schema_read_name + ';'
-        self.path = path
+            self.path = path
 
 
     def generate_all_sepsis_onset(self):
@@ -112,9 +117,10 @@ class make_labels:
         self.sofa_within_si.to_csv(path + "19-06-12-sepsis_onsets.csv")
 
     def save_to_postgres(self):
-        engine = create_engine('postgresql+psycopg2://{0}:{1}@{2}:5432/mimic3'.format(self.sqluser,
+        engine = create_engine('postgresql+psycopg2://{0}:{1}@{2}:5432/{3}'.format(self.sqluser,
                                                                                       self.sqlpass,
-                                                                                      self.host))
+                                                                                      self.host,
+                                                                                      self.dbname))
         self.sofa_within_si.rename(columns={"sofa_delta": "delta_score"}, inplace=True)
         # somehow we cannot overwrite tables directly with "to_sql" so let's do that before
         conn = psycopg2.connect(dbname=self.dbname,
