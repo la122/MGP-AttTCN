@@ -88,7 +88,7 @@ class MakeSetsAndNormalise:
 
 
     def save(self, file_name=None):
-        path = os.path.join(head, 'data')
+        path = os.path.join(head, 'data/')
         sets_names = ["train", "val", "test"]
         if file_name is None:
             full_static = "/full_static.csv"

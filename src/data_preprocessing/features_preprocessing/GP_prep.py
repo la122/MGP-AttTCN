@@ -120,7 +120,7 @@ class CompactTransform:
 def main(args):
     outpath = args.out_path
     cwd = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join(head, 'data')
+    path = os.path.join(head, 'data/')
     file = path + outpath + "/full_labvitals.csv"
     data = pd.read_csv(file)
     onsetfile = path + "processed/onset_hours.csv"
