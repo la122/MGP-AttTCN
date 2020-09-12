@@ -47,7 +47,12 @@ def main(args):
     labels.generate_sofa_delta_table()
 
     # generate data to feed in model 
-    data = MakeData()
+    data = MakeData(sqluser=args.sqluser,
+                    sqlpass=args.sqlpass,
+                    host=args.host,
+                    dbname=args.dbname,
+                    schema_write_name=args.schema_write_name,
+                    schema_read_name=args.schema_read_name)
     data.step1_cohort()
     match_controls()
     data.step3_match_controls_to_sql()
@@ -134,7 +139,7 @@ def parse_arg():
                         help="SQL read/main schema name")
     parser.add_argument("-w", "--schema_write_name",
                         help="SQL write schema name (optional)", 
-                        default=None)
+                        default='mimic3_mrosnati')
     parser.add_argument("-o", "--output_path",
                         help="where to save tables", 
                         default=None)
